@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Next.js starter template.
 
 - Next.js
@@ -6,3 +7,6 @@
 - Prettier
 - Jest
 - Tailwind CSS
+=======
+# lensent-next-js
+>>>>>>> origin/main
