@@ -7,7 +7,7 @@ const App = (props: AppProps) => {
   return (
     <>
       <Head>
-        <title>nexst</title>
+        <title>LenSent</title>
       </Head>
       <props.Component {...props.pageProps} />
     </>

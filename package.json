@@ -61,5 +61,6 @@
     "*": "yarn fix:prettier"
   },
   "main": "index.js",
-  "repository": "https://github.com/lightsound/nexst-tailwind.git"
+  "repository": "https://github.com/Yuta-K19418/lensent-next-js.git",
+  "author": "Yuta-K19418 <yuta.k.19418@gmail.com>"
 }
