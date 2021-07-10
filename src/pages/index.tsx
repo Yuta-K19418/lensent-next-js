@@ -3,6 +3,7 @@ import type { NextPage } from "next";
 import { LoginButton } from "src/components/buttons";
 import { TopImage } from "src/components/Images";
 import { Layout } from "src/components/layout";
+import { Sidebar } from "src/components/sidebar";
 
 const Home: NextPage = () => {
   const { user, error, isLoading } = useUser();
@@ -10,7 +11,17 @@ const Home: NextPage = () => {
   if (isLoading) return <div>Loading...</div>;
   else if (error) return <div>{error.message}</div>;
 
-  if (user) return <Layout></Layout>;
+  if (user)
+    return (
+      <Layout>
+        <div className="flex">
+          <Sidebar />
+          <div className="mt-16 ml-32">
+            <h1>こんにちは、{user.name}さん</h1>
+          </div>
+        </div>
+      </Layout>
+    );
   else
     return (
       <Layout>
