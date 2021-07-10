@@ -10,7 +10,7 @@ module.exports = {
 
       md: "768px",
       // => @media (min-width: 768px) { ... }
-		  
+
       lg: "1024px",
       // => @media (min-width: 1024px) { ... }
 
@@ -20,10 +20,10 @@ module.exports = {
       "2xl": "1536px",
       // => @media (min-width: 1536px) { ... }
     },
-    backgroundColor: theme => ({
-      'primary': '#191970',
-      'secondary': '#3366CC'
-    }),
+    backgroundColor: {
+      primary: "#191970",
+      secondary: "#3366CC",
+    },
   },
   variants: { extend: {} },
   plugins: [],
