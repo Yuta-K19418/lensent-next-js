@@ -21,6 +21,7 @@ export const EnrollSentenseButton: VFC = () => {
 pt-3 pr-5 pb-3 pl-5 m-1 text-xs font-semibold text-white
         hover:text-indigo-900 bg-secondary hover:bg-none rounded-md
         border-2 border-transparent border-solid transition-all duration-200"
+      type="submit"
     >
       登録
     </button>
