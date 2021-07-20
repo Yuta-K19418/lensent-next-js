@@ -1,6 +1,6 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import type { NextPage } from "next";
-import { LoginButton } from "src/components/buttons";
+import { LoginButton, LogoutButton } from "src/components/buttons";
 import { TopImage } from "src/components/Images";
 import { Layout } from "src/components/layout";
 import { Sidebar } from "src/components/sidebar";
@@ -8,21 +8,57 @@ import { Sidebar } from "src/components/sidebar";
 const Home: NextPage = () => {
   const { user, error, isLoading } = useUser();
 
+  const postUserId = async () => {
+    let shouldPostFlg = false;
+
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/users/${user?.sub}/`, {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json", //eslint-disable-line @typescript-eslint/naming-convention
+        },
+      }).then((response) => {
+        if (!response.ok) shouldPostFlg = true;
+        return response.json();
+      });
+
+      if (shouldPostFlg) {
+        await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/users/${user?.sub}/`, {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json", //eslint-disable-line @typescript-eslint/naming-convention
+          },
+          body: JSON.stringify({ sub: user?.sub, name: user?.name }),
+        }).then((response) => {
+          if (!response.ok) alert("Posting user data failed.");
+          return response.json();
+        });
+      }
+    } catch (err) {
+      alert(err);
+    }
+  };
+
   if (isLoading) return <div>Loading...</div>;
   else if (error) return <div>{error.message}</div>;
 
-  if (user)
+  if (user) {
+    postUserId();
     return (
       <Layout>
         <div className="flex">
           <Sidebar />
           <div className="mt-16 ml-32">
             <h1>こんにちは、{user.name}さん</h1>
+            <p>{user.sub}</p>
+            <LogoutButton />
           </div>
         </div>
       </Layout>
     );
-  else
+  } else {
     return (
       <Layout>
         <div className="flex">
@@ -45,6 +81,7 @@ const Home: NextPage = () => {
         </div>
       </Layout>
     );
+  }
 };
 
 export default Home;

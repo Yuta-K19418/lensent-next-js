@@ -5,12 +5,12 @@ import config from "./auth0-config";
 export const OnInitializedAuth0 = () => {
   const params = {
     audience: config.AUDIENCE,
-    domain: config.AUTH0_DOMAIN,
+    domain: config.AUTH0_ISSUER_BASE_URL,
     clientId: config.AUTH0_CLIENT_ID,
     clientSecret: config.AUTH0_CLIENT_SECRET,
-    scope: "read:current_user",
-    redirectUri: config.AUTH0_BASE_URL + "/api/callback",
-    postLogoutRedirectUri: config.AUTH0_BASE_URL,
+    scope: config.AUTH0_SCOPE,
+    redirectUri: "http://localhost:3000/api/callback",
+    postLogoutRedirectUri: "http://localhost:3000/",
   };
 
   return initAuth0(params);

@@ -3,7 +3,7 @@ import type { VFC } from "react";
 
 const items = [
   { href: "/", label: "ホーム" },
-  { href: "/enroll-sentense", label: "英文登録" },
+  { href: "/register-sentense", label: "英文登録" },
 ];
 
 export const Sidebar: VFC = () => {
