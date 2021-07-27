@@ -10,7 +10,7 @@ import GetAllSentensesData from "src/pages/api/getAllSentensesData";
 import useSWR from "swr";
 
 interface Props {
-  staticSentensesData?: string;
+  staticSentensesData: any;
 }
 
 const TitleList: NextPage<Props> = ({ staticSentensesData }) => {
@@ -70,7 +70,7 @@ const TitleList: NextPage<Props> = ({ staticSentensesData }) => {
 
 export default TitleList;
 
-const getStaticProps = async () => /* eslint-disable-line */ {
+export const getStaticProps = async () => /* eslint-disable-line */ {
   const staticSentensesData = await GetAllSentensesData();
 
   return {

@@ -1,5 +1,3 @@
-import { useUser } from "@auth0/nextjs-auth0";
-
 export type SentenseData = {
   sentense_id: string /*eslint-disable-line*/;
   title: string;
@@ -7,13 +5,9 @@ export type SentenseData = {
   user: string;
 };
 
-type GetSentensesData = () => Promise<SentenseData | null>;
-
-const GetAllSentensesData: GetSentensesData = async () => {
-  const { user } = useUser();
-
+const GetAllSentensesData = async () => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/sentenses/?user=${user?.sub}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/sentenses/`, {
       method: "GET",
       mode: "cors",
       headers: {
