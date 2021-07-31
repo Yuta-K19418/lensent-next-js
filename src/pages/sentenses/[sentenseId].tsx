@@ -1,75 +1,64 @@
-// import { GetStaticPaths, GetStaticProps, NextPage } from "next";
-// import { useEffect } from "react";
-// import { Layout } from "src/components/layout";
-// import { Sidebar } from "src/components/sidebar";
-// import GetAllSentenseIds from "src/pages/api/getAllSentenseIds";
-// import { SentenseData } from "src/pages/api/getAllSentensesData";
-// import GetSentenseData from "src/pages/api/getSentenseData";
-// import useSWR from "swr";
+import type { NextPage } from "next";
+import { useRouter } from "next/dist/client/router";
+import { useEffect } from "react";
+import { Layout } from "src/components/layout";
+import { SentenseContent } from "src/components/sentenseContent";
+import { Sidebar } from "src/components/sidebar";
+import type { SentenseData } from "src/types/sentense.type";
+import useSWR from "swr";
 
-// const Sentense: NextPage = (sentenseId: string, {sentenseData}: SentenseData) => {
+const Sentense: NextPage = () => {
+  const router = useRouter();
 
-// 	const fetcher = (url: string) => {
-//     return fetch(url, {
-//       method: "GET",
-//       mode: "cors",
-//       headers: {
-//         "Content-Type": "application/json", //eslint-disable-line @typescript-eslint/naming-convention
-//       },
-//     }).then((response) => {
-//       return response.json();
-//     });
-//   };
-//   const apiUrl = `${process.env.NEXT_PUBLIC_AUDIENCE}/sentenses/${sentenseId}/`;
+  const getSentenseId = () => {
+    const { sentenseId } = router.query;
+    return sentenseId as string;
+  };
 
-//   const { data, mutate } = useSWR(apiUrl, fetcher, {
-//     initialData: sentenseData,
-//   });
+  const sentenseId = getSentenseId();
+  const fetcher = (url: string) => {
+    return fetch(url, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json", //eslint-disable-line @typescript-eslint/naming-convention
+      },
+    }).then((response) => {
+      return response.json();
+    });
+  };
+  const apiUrl = `${process.env.NEXT_PUBLIC_AUDIENCE}/sentenses/${sentenseId}/`;
 
-//   useEffect(() => {
-//     mutate();
-//   }, []);
+  const { data, mutate } = useSWR<SentenseData>(apiUrl, fetcher);
 
-// 	if (!data) {
-// 		return (
-// 			<Layout>
-// 				<div className="flex">
-// 					<Sidebar />
-// 					<span>...Loading</span>
-// 				</div>
-// 		</Layout>
-// 		);
-// 	}
+  useEffect(() => {
+    mutate();
+  }, []);
 
-// 	return (
-// 		<Layout>
-// 				<div className="flex">
-// 					<Sidebar />
+  if (!data) {
+    return (
+      <Layout>
+        <div className="flex">
+          <Sidebar />
+          <span>...Loading</span>
+        </div>
+      </Layout>
+    );
+  }
 
-// 				</div>
-// 		</Layout>
-// 	);
-// }
+  return (
+    <Layout>
+      <div className="flex">
+        <Sidebar />
+        <SentenseContent /*eslint-disable-line*/
+          sentense_id={data.sentense_id}
+          title={data.title}
+          sentense={data.sentense}
+          user={data.user}
+        />
+      </div>
+    </Layout>
+  );
+};
 
-// export default Sentense;
-
-// export const getStaticPaths: GetStaticPaths = async () => {
-// 	const paths = await GetAllSentenseIds();
-
-// 	return {
-// 		paths,
-// 		fallback: true,
-// 	}
-// }
-
-// export const getStaticProps: GetStaticProps = async ({params}) => {
-// 	const sentenseData = await GetSentenseData(params.sentenseId);
-
-// 	return {
-// 		props: {
-// 			sentenseId: params.sentenseId,
-// 			sentenseData,
-// 		},
-// 		revalidate: 3,
-// 	}
-// }
+export default Sentense;

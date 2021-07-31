@@ -5,15 +5,10 @@ import { useEffect } from "react";
 import { Layout } from "src/components/layout";
 import { SentenseTitle } from "src/components/sentenseTitle";
 import { Sidebar } from "src/components/sidebar";
-import type { SentenseData } from "src/pages/api/getAllSentensesData";
-import GetAllSentensesData from "src/pages/api/getAllSentensesData";
+import type { SentenseData } from "src/types/sentense.type";
 import useSWR from "swr";
 
-interface Props {
-  staticSentensesData: any;
-}
-
-const TitleList: NextPage<Props> = ({ staticSentensesData }) => {
+const TitleList: NextPage = () => {
   const { user, error, isLoading } = useUser();
 
   const fetcher = (url: string) => {
@@ -29,9 +24,7 @@ const TitleList: NextPage<Props> = ({ staticSentensesData }) => {
   };
   const apiUrl = `${process.env.NEXT_PUBLIC_AUDIENCE}/sentenses/?user=${user?.sub}`;
 
-  const { data, mutate } = useSWR(apiUrl, fetcher, {
-    initialData: staticSentensesData,
-  });
+  const { data, mutate } = useSWR(apiUrl, fetcher);
 
   useEffect(() => {
     mutate();
@@ -69,12 +62,3 @@ const TitleList: NextPage<Props> = ({ staticSentensesData }) => {
 };
 
 export default TitleList;
-
-export const getStaticProps = async () => /* eslint-disable-line */ {
-  const staticSentensesData = await GetAllSentensesData();
-
-  return {
-    props: { staticSentensesData },
-    revalidate: 3,
-  };
-};
