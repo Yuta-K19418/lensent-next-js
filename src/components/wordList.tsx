@@ -1,11 +1,59 @@
+import { useUser } from "@auth0/nextjs-auth0";
+import { useRouter } from "next/dist/client/router";
 import type { VFC } from "react";
+import { useState } from "react";
+import { AddWordsButton } from "src/components/buttons";
 
 export const WordList: VFC = () => {
+  const { user } = useUser();
+  const router = useRouter();
+  const [words, setWords] = useState("");
+
+  const getSentenseId = () => {
+    const { sentenseId } = router.query;
+    return sentenseId as string;
+  };
+
+  const sentenseId = getSentenseId();
+
+  const handleAddWords = async () => {
+    try {
+      const japaneseWords = await fetch(
+        `${process.env.NEXT_PUBLIC_TRANSLATION_API_URL}?text=${words}&source=en&target=ja`,
+        {
+          method: "GET",
+        }
+      ).then((response) => {
+        if (!response.ok) alert("Posting words failed.");
+        return response.json();
+      });
+
+      await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/words/`, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json", //eslint-disable-line @typescript-eslint/naming-convention
+        },
+        body: `{
+				"user": "${user?.sub}",
+				"sentense_id": "${sentenseId}",
+				"english_words": "${words}",
+        "japanese_words": "${japaneseWords?.text}"
+				}`,
+      }).then((response) => {
+        if (!response.ok) alert("Posting words failed.");
+        return response.json();
+      });
+    } catch (err) {
+      alert(err);
+    }
+  };
+
   return (
-    <div className="py-20">
+    <div className="py-10">
       <div className="container mx-auto bg-white dark:bg-gray-800 rounded shadow">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-stretch p-4 lg:p-8 w-full">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center w-full lg:w-1/3">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center">
             <div className="flex items-center">
               <a className="p-2 text-gray-600 dark:text-gray-400 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded border border-transparent focus:border-gray-800 cursor-pointer focus:outline-none">
                 <svg
@@ -49,7 +97,25 @@ export const WordList: VFC = () => {
               </a>
             </div>
           </div>
-          <div className="flex flex-col lg:flex-row justify-end items-start lg:items-center w-full lg:w-2/3">
+          <div className="flex flex-col lg:flex-row justify-end items-start lg:items-center">
+            <label className="block text-gray-600" htmlFor="word-label">
+              覚えたい語句
+            </label>
+            <input
+              className="inline-block shadow
+                border rounded py-1 ml-3 text-gray-700
+                focus:outline-none align-top break-words"
+              type="text"
+              placeholder="apple"
+              onChange={(e) => /* eslint-disable-line */ {
+                setWords(e.target.value);
+              }}
+            />
+            <div className="ml-2" onClick={handleAddWords} /*eslint-disable-line*/>
+              <AddWordsButton />
+            </div>
+          </div>
+          <div className="flex flex-col lg:flex-row justify-end items-start lg:items-center">
             <div className="flex items-center py-3 lg:py-0 lg:px-6 lg:border-r lg:border-l border-gray-300 dark:border-gray-200">
               <p className="text-base text-gray-600 dark:text-gray-400">Viewing 1 - 20 of 60</p>
             </div>

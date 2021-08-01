@@ -41,6 +41,20 @@ pt-3 pr-5 pb-3 pl-5 m-1 text-xs font-semibold text-white
   );
 };
 
+export const AddWordsButton: VFC = () => {
+  return (
+    <button
+      className="        ease-in-out outline-none focus:outline-none
+pt-3 pr-5 pb-3 pl-5 m-1 text-xs font-semibold text-white
+        hover:text-indigo-900 bg-secondary hover:bg-none rounded-md
+        border-2 border-transparent border-solid transition-all duration-200"
+      type="submit"
+    >
+      追加
+    </button>
+  );
+};
+
 export const BackButton: VFC = () => {
   return (
     <button
