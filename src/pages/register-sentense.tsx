@@ -58,9 +58,9 @@ const RegisterSentense: NextPage = () => {
               英文を入力してください。
             </label>
             <input
-              className="inline-block mt-7 shadow appearance-none
-                border rounded py-32 text-gray-700 leading-tight
-                w-full h-90	focus:outline-none align-text-top"
+              className="inline-block mt-7 shadow
+                border rounded py-32 text-gray-700
+                w-full h-90	focus:outline-none align-top break-words"
               type="text"
               placeholder="This is an apple."
               onChange={(e) => /* eslint-disable-line */ {

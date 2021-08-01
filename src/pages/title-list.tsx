@@ -38,18 +38,11 @@ const TitleList: NextPage = () => {
       <Layout>
         <div className="flex">
           <Sidebar />
-          <div className="xl:ml-32 xl:w-1/2 xl:h-1/3">
+          <div className="xl:ml-32 xl:w-4/5 xl:h-1/3">
             <ul>
               {data &&
                 data.map((sentense: SentenseData) => {
-                  return (
-                    <SentenseTitle /*eslint-disable-line*/
-                      sentense_id={sentense.sentense_id}
-                      title={sentense.title}
-                      sentense={sentense.sentense}
-                      user={sentense.user}
-                    />
-                  );
+                  return <SentenseTitle /*eslint-disable-line*/ sentenseData={sentense} sentenseDeleted={mutate} />;
                 })}
             </ul>
           </div>

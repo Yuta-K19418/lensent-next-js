@@ -3,7 +3,12 @@ module.exports = {
   purge: ["./src/**/*.{ts,tsx}"],
   darkMode: false, // 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#191970",
+        secondary: "#3366CC",
+      },
+    },
     screens: {
       sm: "640px",
       // => @media (min-width: 640px) { ... }
@@ -19,10 +24,6 @@ module.exports = {
 
       "2xl": "1536px",
       // => @media (min-width: 1536px) { ... }
-    },
-    backgroundColor: {
-      primary: "#191970",
-      secondary: "#3366CC",
     },
   },
   variants: { extend: {} },
