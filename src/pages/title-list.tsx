@@ -22,7 +22,7 @@ const TitleList: NextPage = () => {
       return response.json();
     });
   };
-  const apiUrl = `${process.env.NEXT_PUBLIC_AUDIENCE}/sentenses/?user=${user?.sub}`;
+  const apiUrl = `${process.env.NEXT_PUBLIC_AUDIENCE}/sentenses/by-sub/${user?.sub}`;
 
   const { data, mutate } = useSWR(apiUrl, fetcher);
 

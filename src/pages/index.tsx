@@ -12,7 +12,7 @@ const Home: NextPage = () => {
     let shouldPostFlg = false;
 
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/users/${user?.sub}/`, {
+      await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/users/${user?.sub}`, {
         method: "GET",
         mode: "cors",
         headers: {
@@ -24,7 +24,7 @@ const Home: NextPage = () => {
       });
 
       if (shouldPostFlg) {
-        await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/users/${user?.sub}/`, {
+        await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/users`, {
           method: "POST",
           mode: "cors",
           headers: {
@@ -32,7 +32,6 @@ const Home: NextPage = () => {
           },
           body: JSON.stringify({ sub: user?.sub, name: user?.name }),
         }).then((response) => {
-          if (!response.ok) alert("Posting user data failed.");
           return response.json();
         });
       }

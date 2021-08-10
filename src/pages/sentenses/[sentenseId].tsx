@@ -29,7 +29,7 @@ const Sentense: NextPage = () => {
       return response.json();
     });
   };
-  const apiUrl = `${process.env.NEXT_PUBLIC_AUDIENCE}/sentenses/${sentenseId}/`;
+  const apiUrl = `${process.env.NEXT_PUBLIC_AUDIENCE}/sentenses/by-sentense-id/${sentenseId}`;
 
   const { data, mutate } = useSWR<SentenseData>(apiUrl, fetcher);
 

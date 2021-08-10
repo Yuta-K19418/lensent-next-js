@@ -9,17 +9,19 @@ interface Props {
 
 export const SentenseTitle: VFC<Props> = (props) => {
   const handleDeleteSentense = async () => {
-    await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/sentenses/${props.sentenseData.sentense_id}/`, {
-      method: "DELETE",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json", //eslint-disable-line @typescript-eslint/naming-convention
-      },
-    }).then((response) => {
-      if (!response.ok) alert("Deleting sentense data failed.");
-
-      return response.json();
-    });
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/sentenses/${props.sentenseData.sentense_id}`, {
+        method: "DELETE",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json", //eslint-disable-line @typescript-eslint/naming-convention
+        },
+      }).then((response) => {
+        return response.json();
+      });
+    } catch (err) {
+      alert(err);
+    }
   };
 
   return (
