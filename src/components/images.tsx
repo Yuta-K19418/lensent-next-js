@@ -1,8 +1,8 @@
 import Image from "next/image";
 import type { VFC } from "react";
 
-import Top from "/app/lensent-next-js/public/Innovation_Isometric.svg";
-import Icon from "/app/lensent-next-js/public/logo.png";
+import Top from "../../public/Innovation_Isometric.svg";
+import Icon from "../../public/logo.png";
 
 export const IconImage: VFC = () => {
   return (
