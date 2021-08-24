@@ -7,6 +7,7 @@ RUN yarn install --network-timeout 120000
 FROM base AS builder
 WORKDIR /build
 COPY --from=base /base ./
+RUN yarn next build
 
 FROM node:16-alpine3.14
 WORKDIR /app
