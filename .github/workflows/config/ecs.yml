@@ -188,8 +188,8 @@ Resources:
       SecurityGroups:
         - !ImportValue ALBSecurityGroupName
       Subnets:
-        - !ImportValue ECSSubnet1Name
-        - !ImportValue ECSSubnet2Name
+        - !ImportValue ECSSubnet3Name
+        - !ImportValue ECSSubnet4Name
 
   ALBListener:
     Type: "AWS::ElasticLoadBalancingV2::Listener"
@@ -253,9 +253,9 @@ Resources:
       ContainerDefinitions:
         - Name: !Sub "${ProjectName}-${ECSContainerName}"
           Image: !Ref ECSImageName
-          # Environment:
-          #  - Name: AUTH0_BASE_URL
-          #    Value: !ImportValue
+          Environment:
+            - Name: AUTH0_BASE_URL
+              Value: !GetAtt ALBListener.DNSName
           LogConfiguration:
             LogDriver: awslogs
             Options:
@@ -280,7 +280,7 @@ Resources:
       LaunchType: FARGATE
       LoadBalancers:
         - TargetGroupArn: !Ref TargetGroup
-          ContainerPort: 8080
+          ContainerPort: 3000
           ContainerName: !Sub "${ProjectName}-${ECSContainerName}"
       NetworkConfiguration:
         AwsvpcConfiguration:
@@ -288,8 +288,8 @@ Resources:
           SecurityGroups:
             - !ImportValue ECSSecurityGroupName
           Subnets:
-            - !ImportValue ECSSubnet1Name
-            - !ImportValue ECSSubnet2Name
+            - !ImportValue ECSSubnet3Name
+            - !ImportValue ECSSubnet4Name
       ServiceName: !Sub "${ProjectName}-${ECSServiceName}"
       TaskDefinition: !Ref ECSTaskDefinition
 # ------------------------------------------------------------#
