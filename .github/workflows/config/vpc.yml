@@ -41,7 +41,7 @@ Resources:
     Properties:
       RouteTableId: !Ref ECSSubnet3RT
       DestinationCidrBlock: 0.0.0.0/0
-      GatewayId: !Ref IGW
+      GatewayId: !ImportValue IGWName
   AssoECSSubnet3RT:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
