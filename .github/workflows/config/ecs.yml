@@ -255,7 +255,7 @@ Resources:
           Image: !Ref ECSImageName
           Environment:
             - Name: AUTH0_BASE_URL
-              Value: !GetAtt ALBListener.DNSName
+              Value: !GetAtt InternetALB.DNSName
           LogConfiguration:
             LogDriver: awslogs
             Options:
