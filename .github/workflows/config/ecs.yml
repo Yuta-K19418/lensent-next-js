@@ -186,7 +186,7 @@ Resources:
         - Key: "access_logs.s3.bucket"
           Value: !ImportValue ELBLogBucketName
       SecurityGroups:
-        - !ImportValue ALBSecurityGroupName
+        - !ImportValue ALBForNextjsSecurityGroupName
       Subnets:
         - !ImportValue ECSSubnet3Name
         - !ImportValue ECSSubnet4Name
@@ -286,7 +286,7 @@ Resources:
         AwsvpcConfiguration:
           AssignPublicIp: ENABLED
           SecurityGroups:
-            - !ImportValue ECSSecurityGroupName
+            - !ImportValue ECSForNextjsSecurityGroupName
           Subnets:
             - !ImportValue ECSSubnet3Name
             - !ImportValue ECSSubnet4Name

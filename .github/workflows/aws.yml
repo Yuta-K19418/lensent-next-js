@@ -44,6 +44,24 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-1
 
+      - name: Deploy Cloudformation NextjsNetwork
+        env:
+          STACK_NAME: NextjsNetwork
+          TEMPLATE_NAME: vpc.yml
+        run: |
+          aws cloudformation deploy \
+            --template-file ./.github/workflows/config/${TEMPLATE_NAME} \
+            --stack-name ${STACK_NAME}
+
+      - name: Deploy Cloudformation NextjsSG
+        env:
+          STACK_NAME: NextjsSG
+          TEMPLATE_NAME: sg.yml
+        run: |
+          aws cloudformation deploy \
+            --template-file ./.github/workflows/config/${TEMPLATE_NAME} \
+            --stack-name ${STACK_NAME}
+
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
