@@ -1,9 +1,10 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import type { NextPage } from "next";
-import { LoginButton, LogoutButton } from "src/components/buttons";
-import { TopImage } from "src/components/images";
-import { Layout } from "src/components/layout";
-import { Sidebar } from "src/components/sidebar";
+
+import { LoginButton, LogoutButton } from "../components/buttons";
+import { TopImage } from "../components/images";
+import { Layout } from "../components/layout";
+import { Sidebar } from "../components/sidebar";
 
 const Home: NextPage = () => {
   const { user, error, isLoading } = useUser();

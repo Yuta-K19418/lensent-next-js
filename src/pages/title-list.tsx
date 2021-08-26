@@ -2,11 +2,12 @@ import { useUser } from "@auth0/nextjs-auth0";
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useEffect } from "react";
-import { Layout } from "src/components/layout";
-import { SentenseTitle } from "src/components/sentenseTitle";
-import { Sidebar } from "src/components/sidebar";
-import type { SentenseData } from "src/types/sentense.type";
 import useSWR from "swr";
+
+import { Layout } from "../components/layout";
+import { SentenseTitle } from "../components/sentenseTitle";
+import { Sidebar } from "../components/sidebar";
+import type { SentenseData } from "../types/sentense.type";
 
 const TitleList: NextPage = () => {
   const { user, error, isLoading } = useUser();

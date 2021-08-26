@@ -1,13 +1,14 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
-import { BackButton } from "src/components/buttons";
-import { Layout } from "src/components/layout";
-import { SentenseContent } from "src/components/sentenseContent";
-import { Sidebar } from "src/components/sidebar";
-import { WordList } from "src/components/wordList";
-import type { SentenseData } from "src/types/sentense.type";
 import useSWR from "swr";
+
+import { BackButton } from "../../components/buttons";
+import { Layout } from "../../components/layout";
+import { SentenseContent } from "../../components/sentenseContent";
+import { Sidebar } from "../../components/sidebar";
+import { WordList } from "../../components/wordList";
+import type { SentenseData } from "../../types/sentense.type";
 
 const Sentense: NextPage = () => {
   const router = useRouter();

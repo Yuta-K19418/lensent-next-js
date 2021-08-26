@@ -2,9 +2,10 @@ import { useUser } from "@auth0/nextjs-auth0";
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useState } from "react";
-import { RegisterSentenseButton } from "src/components/buttons";
-import { Layout } from "src/components/layout";
-import { Sidebar } from "src/components/sidebar";
+
+import { RegisterSentenseButton } from "../components/buttons";
+import { Layout } from "../components/layout";
+import { Sidebar } from "../components/sidebar";
 
 const RegisterSentense: NextPage = () => {
   const { user, error, isLoading } = useUser();
