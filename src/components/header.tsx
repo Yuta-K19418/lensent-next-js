@@ -1,5 +1,6 @@
 import type { VFC } from "react";
-import { Logo } from "src/components/logo";
+
+import { Logo } from "./logo";
 
 export const Header: VFC = () => {
   return (

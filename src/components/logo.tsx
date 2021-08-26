@@ -1,5 +1,6 @@
 import type { VFC } from "react";
-import { IconImage } from "src/components/images";
+
+import { IconImage } from "./images";
 
 export const Logo: VFC = () => {
   return (

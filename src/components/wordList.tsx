@@ -2,7 +2,8 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/dist/client/router";
 import type { VFC } from "react";
 import { useState } from "react";
-import { AddWordsButton } from "src/components/buttons";
+
+import { AddWordsButton } from "./buttons";
 
 export const WordList: VFC = () => {
   const { user } = useUser();

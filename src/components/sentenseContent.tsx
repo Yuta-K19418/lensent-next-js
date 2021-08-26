@@ -1,7 +1,8 @@
 import type { VFC } from "react";
-import type { SentenseData } from "src/types/sentense.type";
-import type { TranslationData } from "src/types/translation.type";
 import useSWR from "swr";
+
+import type { SentenseData } from "../types/sentense.type";
+import type { TranslationData } from "../types/translation.type";
 
 export const SentenseContent: VFC<SentenseData> = (props) => {
   const fetcher = (url: string) => {

@@ -1,6 +1,7 @@
 import Link from "next/dist/client/link";
 import type { VFC } from "react";
-import type { SentenseData } from "src/types/sentense.type";
+
+import type { SentenseData } from "../types/sentense.type";
 
 interface Props {
   sentenseData: SentenseData;
