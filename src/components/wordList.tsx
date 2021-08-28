@@ -31,7 +31,7 @@ export const WordList: VFC<SentenseData> = (props) => {
 
   useEffect(() => {
     mutate();
-  }, []);
+  }, [mutate]);
 
   const getSentenseId = () => {
     const { sentenseId } = router.query;
@@ -78,7 +78,7 @@ export const WordList: VFC<SentenseData> = (props) => {
               <a className="p-2 text-gray-600 dark:text-gray-400 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded border border-transparent focus:border-gray-800 cursor-pointer focus:outline-none">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="cursor-pointer icon icon-tabler icon-tabler-edit"
+                  className="cursor-pointer"
                   width={20}
                   height={20}
                   viewBox="0 0 24 24"
@@ -97,7 +97,7 @@ export const WordList: VFC<SentenseData> = (props) => {
               <a className="p-2 text-red-500 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded border border-transparent focus:border-gray-800 cursor-pointer focus:outline-none">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="cursor-pointer icon icon-tabler icon-tabler-trash"
+                  className="cursor-pointer"
                   width={20}
                   height={20}
                   viewBox="0 0 24 24"
@@ -165,18 +165,18 @@ export const WordList: VFC<SentenseData> = (props) => {
                   data.map((word: WordData) => {
                     return (
                       <tr className="h-24 border-b border-gray-300 dark:border-gray-200" key={word.word_id}>
-                        <td className="pr-6 pl-8 text-sm tracking-normal leading-4 text-left text-gray-800 dark:text-gray-100 whitespace-no-wrap">
+                        <td className="pr-6 pl-8 text-sm tracking-normal leading-4 text-left text-gray-800 dark:text-gray-100">
                           <input
                             type="checkbox"
                             className="relative w-5 h-5 bg-white dark:bg-gray-800 rounded border border-gray-400 dark:border-gray-200 cursor-pointer outline-none" /*onclick="tableInteract(this)"*/
                           />
                         </td>
-                        <td className="pr-6 text-sm tracking-normal leading-4 text-gray-800 dark:text-gray-100 whitespace-no-wrap">
+                        <td className="pr-6 text-sm tracking-normal leading-4 text-gray-800 dark:text-gray-100">
                           {word.en}
                         </td>
                         <details>
                           <summary>見る</summary>
-                          <td className="pr-6 text-sm tracking-normal leading-4 text-gray-800 dark:text-gray-100 whitespace-no-wrap">
+                          <td className="pr-6 text-sm tracking-normal leading-4 text-gray-800 dark:text-gray-100">
                             {word.ja}
                           </td>
                         </details>

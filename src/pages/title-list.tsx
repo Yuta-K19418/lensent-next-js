@@ -29,7 +29,7 @@ const TitleList: NextPage = () => {
 
   useEffect(() => {
     mutate();
-  }, []);
+  }, [mutate]);
 
   if (isLoading) return <div>Loading...</div>;
   else if (error) return <div>{error.message}</div>;

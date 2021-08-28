@@ -36,7 +36,7 @@ const Sentense: NextPage = () => {
 
   useEffect(() => {
     mutate();
-  }, []);
+  }, [mutate]);
 
   if (!data) {
     return (

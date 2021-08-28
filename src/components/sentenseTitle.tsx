@@ -26,8 +26,8 @@ export const SentenseTitle: VFC<Props> = (props) => {
   };
 
   return (
-    <div className="grid grid-cols-3 place-items-auto w-full bg-gray-200 h-30">
-      <div className="flex flex-col justify-around p-4 m-2 w-72 h-72 bg-blue-400 rounded shadow-2xl border-box">
+    <div className="grid grid-cols-3 place-items-auto w-full bg-gray-200">
+      <div className="flex flex-col justify-around p-4 m-2 w-72 h-72 bg-blue-400 rounded shadow-2xl">
         <p className="my-4 text-2xl font-bold uppercase">{props.sentenseData.title}</p>
         <div className="flex flex-row">
           <Link href={`/sentenses/${props.sentenseData.sentense_id}`}>
