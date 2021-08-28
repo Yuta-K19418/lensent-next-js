@@ -60,7 +60,12 @@ const Sentense: NextPage = () => {
             sentense={data.sentense}
             user={data.user}
           />
-          <WordList />
+          <WordList /*eslint-disable-line*/
+            sentense_id={data.sentense_id}
+            title={data.title}
+            sentense={data.sentense}
+            user={data.user}
+          />
           <BackButton />
         </div>
       </div>

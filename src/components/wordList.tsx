@@ -1,14 +1,37 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/dist/client/router";
 import type { VFC } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
+import type { SentenseData } from "src/types/sentense.type";
+import type { WordData } from "src/types/word.type";
+import useSWR from "swr";
 
 import { AddWordsButton } from "./buttons";
 
-export const WordList: VFC = () => {
+export const WordList: VFC<SentenseData> = (props) => {
   const { user } = useUser();
   const router = useRouter();
   const [words, setWords] = useState("");
+
+  const fetcher = (url: string) => {
+    return fetch(url, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json", //eslint-disable-line @typescript-eslint/naming-convention
+      },
+    }).then((response) => {
+      return response.json();
+    });
+  };
+  const apiUrl = `${process.env.NEXT_PUBLIC_AUDIENCE}/words/by-sentense-id/${props.sentense_id}`;
+
+  const { data, mutate } = useSWR(apiUrl, fetcher);
+
+  useEffect(() => {
+    mutate();
+  }, []);
 
   const getSentenseId = () => {
     const { sentenseId } = router.query;
@@ -18,36 +41,32 @@ export const WordList: VFC = () => {
   const sentenseId = getSentenseId();
 
   const handleAddWords = async () => {
-    try {
-      const japaneseWords = await fetch(
-        `${process.env.NEXT_PUBLIC_TRANSLATION_API_URL}?text=${words}&source=en&target=ja`,
-        {
-          method: "GET",
-        }
-      ).then((response) => {
-        if (!response.ok) alert("Posting words failed.");
-        return response.json();
-      });
+    const japaneseWords = await fetch(
+      `${process.env.NEXT_PUBLIC_TRANSLATION_API_URL}?text=${words}&source=en&target=ja`,
+      {
+        method: "GET",
+      }
+    ).then((response) => {
+      if (!response.ok) alert("Posting words failed.");
+      return response.json();
+    });
 
-      await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/words/`, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json", //eslint-disable-line @typescript-eslint/naming-convention
-        },
-        body: `{
-				"user": "${user?.sub}",
-				"sentense_id": "${sentenseId}",
-				"english_words": "${words}",
-        "japanese_words": "${japaneseWords?.text}"
-				}`,
-      }).then((response) => {
-        if (!response.ok) alert("Posting words failed.");
-        return response.json();
-      });
-    } catch (err) {
-      alert(err);
-    }
+    await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/words`, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json", //eslint-disable-line @typescript-eslint/naming-convention
+      },
+      body: `{
+      "en": "${words}",
+      "ja": "${japaneseWords?.text}",
+      "sentense_id": "${sentenseId}",
+      "sub": "${user?.sub}"
+      }`,
+    }).then((response) => {
+      if (!response.ok) alert("Posting words failed.");
+      return response.json();
+    });
   };
 
   return (
@@ -118,7 +137,7 @@ export const WordList: VFC = () => {
           </div>
           <div className="flex flex-col lg:flex-row justify-end items-start lg:items-center">
             <div className="flex items-center py-3 lg:py-0 lg:px-6 lg:border-r lg:border-l border-gray-300 dark:border-gray-200">
-              <p className="text-base text-gray-600 dark:text-gray-400">Viewing 1 - 20 of 60</p>
+              <ul>{data && <p className="text-base text-gray-600 dark:text-gray-400">{data.length} items</p>}</ul>
             </div>
           </div>
         </div>
@@ -141,23 +160,30 @@ export const WordList: VFC = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="h-24 border-b border-gray-300 dark:border-gray-200">
-                <td className="pr-6 pl-8 text-sm tracking-normal leading-4 text-left text-gray-800 dark:text-gray-100 whitespace-no-wrap">
-                  <input
-                    type="checkbox"
-                    className="relative w-5 h-5 bg-white dark:bg-gray-800 rounded border border-gray-400 dark:border-gray-200 cursor-pointer outline-none" /*onclick="tableInteract(this)"*/
-                  />
-                </td>
-                <td className="pr-6 text-sm tracking-normal leading-4 text-gray-800 dark:text-gray-100 whitespace-no-wrap">
-                  #MC10023
-                </td>
-                <details>
-                  <summary>見る</summary>
-                  <td className="pr-6 text-sm tracking-normal leading-4 text-gray-800 dark:text-gray-100 whitespace-no-wrap">
-                    $2,500
-                  </td>
-                </details>
-              </tr>
+              <ul>
+                {data &&
+                  data.map((word: WordData) => {
+                    return (
+                      <tr className="h-24 border-b border-gray-300 dark:border-gray-200" key={word.word_id}>
+                        <td className="pr-6 pl-8 text-sm tracking-normal leading-4 text-left text-gray-800 dark:text-gray-100 whitespace-no-wrap">
+                          <input
+                            type="checkbox"
+                            className="relative w-5 h-5 bg-white dark:bg-gray-800 rounded border border-gray-400 dark:border-gray-200 cursor-pointer outline-none" /*onclick="tableInteract(this)"*/
+                          />
+                        </td>
+                        <td className="pr-6 text-sm tracking-normal leading-4 text-gray-800 dark:text-gray-100 whitespace-no-wrap">
+                          {word.en}
+                        </td>
+                        <details>
+                          <summary>見る</summary>
+                          <td className="pr-6 text-sm tracking-normal leading-4 text-gray-800 dark:text-gray-100 whitespace-no-wrap">
+                            {word.ja}
+                          </td>
+                        </details>
+                      </tr>
+                    );
+                  })}
+              </ul>
             </tbody>
           </table>
         </div>
