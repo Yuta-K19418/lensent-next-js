@@ -3,6 +3,7 @@ import type { NextPage } from "next";
 
 import { LoginButton, LogoutButton } from "../components/buttons";
 import { TopImage } from "../components/images";
+import { HomeImage } from "../components/images";
 import { Layout } from "../components/layout";
 import { Sidebar } from "../components/sidebar";
 
@@ -52,7 +53,7 @@ const Home: NextPage = () => {
           <Sidebar />
           <div className="mt-16 ml-32">
             <h1>こんにちは、{user.name}さん</h1>
-            <p>{user.sub}</p>
+            <HomeImage />
             <LogoutButton />
           </div>
         </div>
