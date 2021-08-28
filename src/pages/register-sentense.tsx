@@ -13,24 +13,21 @@ const RegisterSentense: NextPage = () => {
   const [sentense, setSentense] = useState("");
 
   const handlePostSentenseData = async () => {
-    try {
-      await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/sentenses`, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json", //eslint-disable-line @typescript-eslint/naming-convention
-        },
-        body: `{
-				"sub": "${user?.sub}",
-				"title": "${title}",
-				"sentense": "${sentense}"
-				}`,
-      }).then((response) => {
-        return response.json();
-      });
-    } catch (err) {
-      alert(err);
-    }
+    await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/sentenses`, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json", //eslint-disable-line @typescript-eslint/naming-convention
+      },
+      body: `{
+      "sub": "${user?.sub}",
+      "title": "${title}",
+      "sentense": "${sentense}"
+      }`,
+    }).then((response) => {
+      if (!response.ok) alert("Posting sentense failed.");
+      return response.json();
+    });
   };
 
   if (isLoading) return <div>Loading...</div>;
