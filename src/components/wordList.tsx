@@ -12,7 +12,7 @@ import { AddWordsButton } from "./buttons";
 export const WordList: VFC<SentenseData> = (props) => {
   const { user } = useUser();
   const router = useRouter();
-  const [words, setWords] = useState("");
+  const [word, setWord] = useState("");
 
   const fetcher = (url: string) => {
     return fetch(url, {
@@ -42,7 +42,7 @@ export const WordList: VFC<SentenseData> = (props) => {
 
   const handleAddWords = async () => {
     const japaneseWords = await fetch(
-      `${process.env.NEXT_PUBLIC_TRANSLATION_API_URL}?text=${words}&source=en&target=ja`,
+      `${process.env.NEXT_PUBLIC_TRANSLATION_API_URL}?text=${word}&source=en&target=ja`,
       {
         method: "GET",
       }
@@ -58,7 +58,7 @@ export const WordList: VFC<SentenseData> = (props) => {
         "Content-Type": "application/json", //eslint-disable-line @typescript-eslint/naming-convention
       },
       body: `{
-      "en": "${words}",
+      "en": "${word}",
       "ja": "${japaneseWords?.text}",
       "sentense_id": "${sentenseId}",
       "sub": "${user?.sub}"
@@ -69,54 +69,22 @@ export const WordList: VFC<SentenseData> = (props) => {
     });
   };
 
+  const handleDeleteWord = async (word: WordData) => {
+    await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/words/${word.word_id}`, {
+      method: "DELETE",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json", //eslint-disable-line @typescript-eslint/naming-convention
+      },
+    }).then((response) => {
+      return response.json();
+    });
+  };
+
   return (
     <div className="py-10">
       <div className="container mx-auto bg-white dark:bg-gray-800 rounded shadow">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-stretch p-4 lg:p-8 w-full">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center">
-            <div className="flex items-center">
-              <a className="p-2 text-gray-600 dark:text-gray-400 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded border border-transparent focus:border-gray-800 cursor-pointer focus:outline-none">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="cursor-pointer"
-                  width={20}
-                  height={20}
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" />
-                  <path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
-                  <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
-                  <line x1={16} y1={5} x2={19} y2={8} />
-                </svg>
-              </a>
-              <a className="p-2 text-red-500 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded border border-transparent focus:border-gray-800 cursor-pointer focus:outline-none">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="cursor-pointer"
-                  width={20}
-                  height={20}
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" />
-                  <line x1={4} y1={7} x2={20} y2={7} />
-                  <line x1={10} y1={11} x2={10} y2={17} />
-                  <line x1={14} y1={11} x2={14} y2={17} />
-                  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                </svg>
-              </a>
-            </div>
-          </div>
           <div className="flex flex-col lg:flex-row justify-end items-start lg:items-center">
             <label className="block text-gray-600" htmlFor="word-label">
               覚えたい語句
@@ -128,7 +96,7 @@ export const WordList: VFC<SentenseData> = (props) => {
               type="text"
               placeholder="apple"
               onChange={(e) => /* eslint-disable-line */ {
-                setWords(e.target.value);
+                setWord(e.target.value);
               }}
             />
             <div className="ml-2" onClick={handleAddWords} /*eslint-disable-line*/>
@@ -145,17 +113,14 @@ export const WordList: VFC<SentenseData> = (props) => {
           <table className="min-w-full bg-white dark:bg-gray-800">
             <thead>
               <tr className="py-8 w-full h-16 border-b border-gray-300 dark:border-gray-200">
-                <th className="pr-6 pl-8 text-sm font-normal tracking-normal leading-4 text-left text-gray-600 dark:text-gray-400">
-                  <input
-                    type="checkbox"
-                    className="relative w-5 h-5 bg-white dark:bg-gray-800 rounded border border-gray-400 dark:border-gray-200 cursor-pointer outline-none" /*onclick="checkAll(this)"*/
-                  />
-                </th>
-                <th className="pr-6 text-sm font-normal tracking-normal leading-4 text-left text-gray-600 dark:text-gray-400">
+                <th className="text-sm font-normal tracking-normal leading-4 text-left text-gray-600 dark:text-gray-400">
                   語句
                 </th>
                 <th className="pr-6 text-sm font-normal tracking-normal leading-4 text-left text-gray-600 dark:text-gray-400">
                   日本語訳
+                </th>
+                <th className="pr-6 text-sm font-normal tracking-normal leading-4 text-left text-gray-600 dark:text-gray-400">
+                  覚えた♪
                 </th>
               </tr>
             </thead>
@@ -164,22 +129,37 @@ export const WordList: VFC<SentenseData> = (props) => {
                 {data &&
                   data.map((word: WordData) => {
                     return (
-                      <tr className="h-24 border-b border-gray-300 dark:border-gray-200" key={word.word_id}>
-                        <td className="pr-6 pl-8 text-sm tracking-normal leading-4 text-left text-gray-800 dark:text-gray-100">
-                          <input
-                            type="checkbox"
-                            className="relative w-5 h-5 bg-white dark:bg-gray-800 rounded border border-gray-400 dark:border-gray-200 cursor-pointer outline-none" /*onclick="tableInteract(this)"*/
-                          />
-                        </td>
-                        <td className="pr-6 text-sm tracking-normal leading-4 text-gray-800 dark:text-gray-100">
+                      <tr className="w-full h-24 border-b border-gray-300 dark:border-gray-200" key={word.word_id}>
+                        <td className="pl-16 text-sm tracking-normal leading-4 text-gray-800 dark:text-gray-100">
                           {word.en}
                         </td>
                         <details>
                           <summary>見る</summary>
-                          <td className="pr-6 text-sm tracking-normal leading-4 text-gray-800 dark:text-gray-100">
+                          <td className="ml-16 text-sm tracking-normal leading-4 text-gray-800 dark:text-gray-100">
                             {word.ja}
                           </td>
                         </details>
+                        <td>
+                          <div className="flex">
+                            <a className="text-blue-500 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded border border-transparent focus:border-gray-800 cursor-pointer focus:outline-none">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-6 h-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                onClick={handleDeleteWord.bind(this, word)}
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                />
+                              </svg>
+                            </a>
+                          </div>
+                        </td>
                       </tr>
                     );
                   })}
