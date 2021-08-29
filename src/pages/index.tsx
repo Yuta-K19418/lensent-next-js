@@ -52,7 +52,8 @@ const Home: NextPage = () => {
         <div className="flex">
           <Sidebar />
           <div className="mt-16 ml-32">
-            <h1>こんにちは、{user.name}さん</h1>
+            <h1 className="font-semibold text-gray-600 dark:text-gray-400">こんにちは、{user.name}さん!</h1>
+            <p className="mt-5 font-semibold text-gray-600 dark:text-gray-400">今日も学習を継続していきましょう!</p>
             <HomeImage />
             <LogoutButton />
           </div>
