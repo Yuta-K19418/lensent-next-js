@@ -51,12 +51,15 @@ const RegisterSentense: NextPage = () => {
       },
       body: `{
       "sub": "${user?.sub}",
-      "title": "${title}",
-      "sentense": "${sentense}"
+      "title": "${title.replace(/\r?\n/g, "<br>").replace(/"/g, '\\"')}",
+      "sentense": "${sentense.replace(/\r?\n/g, "<br>").replace(/"/g, '\\"')}"
       }`,
     }).then((response) => {
-      if (!response.ok) alert("Posting sentense failed.");
-      openModal();
+      if (!response.ok) {
+        alert("Posting sentense failed.");
+      } else {
+        openModal();
+      }
       return response.json();
     });
   };
@@ -73,10 +76,9 @@ const RegisterSentense: NextPage = () => {
             <label className="block mt-7 text-sm font-bold text-gray-700" htmlFor="title-label">
               タイトルを入力してください。
             </label>
-            <input
-              className="focus:outline-none block mt-7 shadow appearance-none border
-                rounded py-2 text-gray-700 leading-tight w-full"
-              type="text"
+            <textarea
+              className="focus:outline-none block mt-7 shadow appearance-none
+                border rounded py-2 text-gray-700 leading-tight w-full"
               placeholder="Apple"
               onChange={(e) => /* eslint-disable-line */ {
                 setTitle(e.target.value);
@@ -85,12 +87,12 @@ const RegisterSentense: NextPage = () => {
             <label className="block mt-7 text-sm font-bold text-gray-700" htmlFor="sentense-label">
               英文を入力してください。
             </label>
-            <input
-              className="inline-block mt-7 shadow
-                border rounded py-32 text-gray-700
-                w-full h-90	focus:outline-none align-top break-words"
-              type="text"
+            <textarea
+              className="inline-block shadow
+                border rounded text-gray-700
+                w-full focus:outline-none align-text-top break-words"
               placeholder="This is an apple."
+              rows="10"
               onChange={(e) => /* eslint-disable-line */ {
                 setSentense(e.target.value);
               }}

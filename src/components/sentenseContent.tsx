@@ -20,12 +20,12 @@ export const SentenseContent: VFC<SentenseData> = (props) => {
 
   return (
     <div className="py-4 px-8 my-12 xl:w-full bg-white rounded-lg shadow-lg">
-      <h2 className="text-3xl font-semibold text-gray-800">{props.title}</h2>
-      <p className="mt-2 text-gray-600">{props.sentense}</p>
+      <h2 className="text-3xl font-semibold text-gray-800">{props.title.replace(/\r?<br>/g, "\n")}</h2>
+      <p className="mt-2 text-gray-600">{props.sentense.replace(/\r?<br>/g, "\n")}</p>
       <details>
         <summary>日本語訳</summary>
-        <h2 className="text-3xl font-semibold text-gray-800">{titleData?.text}</h2>
-        <p className="mt-2 text-gray-600">{sentenseData?.text}</p>
+        <h2 className="text-3xl font-semibold text-gray-800">{titleData?.text.replace(/\r?<br>/g, "\n")}</h2>
+        <p className="mt-2 text-gray-600">{sentenseData?.text.replace(/\r?<br>/g, "\n")}</p>
       </details>
     </div>
   );
