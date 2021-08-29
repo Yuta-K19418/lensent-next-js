@@ -24,6 +24,17 @@ Metadata:
           - ECSImageName
           - ECSServiceName
           - ECSTaskDesiredCount
+          - AUTH0BaseUrl
+          - AUTH0IssuerBaseUrl
+          - AUTH0Secret
+          - AUTH0ClientId
+          - AUTH0ClientSecret
+          - RedirectUrl
+          - PostLogoutRedirectUri
+          - Audience
+          - NEXTPulicAudience
+          - NEXTPublicTranslationApiUrl
+
       # - Label:
       #     default: "Scaling Configuration"
       #   Parameters:
@@ -54,6 +65,26 @@ Metadata:
         default: "ECSServiceName"
       ECSTaskDesiredCount:
         default: "ECSTaskDesiredCount"
+      AUTH0BaseUrl:
+        default: "AUTH0BaseUrl"
+      AUTH0IssuerBaseUrl:
+        default: "AUTH0IssuerBaseUrl"
+      AUTH0Secret:
+        default: "AUTH0Secret"
+      AUTH0ClientId:
+        default: "AUTH0ClientId"
+      AUTH0ClientSecret:
+        default: "AUTH0ClientSecret"
+      RedirectUrl:
+        default: "RedirectUrl"
+      PostLogoutRedirectUri:
+        default: "PostLogoutRedirectUri"
+      Audience:
+        default: "Audience"
+      NEXTPulicAudience:
+        default: "NEXTPulicAudience"
+      NEXTPublicTranslationApiUrl:
+        default: "NEXTPublicTranslationApiUrl"
 
 # ------------------------------------------------------------#
 # Input Parameters
@@ -103,7 +134,7 @@ Parameters:
   #ECSImageName
   ECSImageName:
     Type: String
-    Default: "xxxxxxxxxxxx.dkr.ecr.ap-northeast-1.amazonaws.com/kaji-test-ecr:latest"
+    Default: "xxxxxxxxxxxx.dkr.ecr.ap-northeast-1.amazonaws.com/lensent-ecr:latest"
 
   #ECSServiceName
   ECSServiceName:
@@ -114,6 +145,56 @@ Parameters:
   ECSTaskDesiredCount:
     Type: Number
     Default: 1
+
+  #AUTH0BaseUrl
+  AUTH0BaseUrl:
+    Type: String
+    Default: "http://localhost:3000"
+
+  #AUTH0IssuerBaseUrl
+  AUTH0IssuerBaseUrl:
+    Type: String
+    Default: "https://dev-ewyrftmq.jp.auth0.com"
+
+  #AUTH0Secret
+  AUTH0Secret:
+    Type: String
+    Default: "secret"
+
+  #AUTH0ClientId
+  AUTH0ClientId:
+    Type: String
+    Default: "clientId"
+
+  #AUTH0ClientSecret
+  AUTH0ClientSecret:
+    Type: String
+    Default: "clientSecret"
+
+  #RedirectUrl
+  RedirectUrl:
+    Type: String
+    Default: "http://localhost:3000/api/callback"
+
+  #PostLogoutRedirectUri
+  PostLogoutRedirectUri:
+    Type: String
+    Default: "http://localhost:3000/"
+
+  #Audience
+  Audience:
+    Type: String
+    Default: "http://localhost:8080/api"
+
+  #NEXTPulicAudience
+  NEXTPulicAudience:
+    Type: String
+    Default: "http://localhost:8080/api"
+
+  #NEXTPublicTranslationApiUrl
+  NEXTPublicTranslationApiUrl:
+    Type: String
+    Default: "https://script.google.com/macros/s/AKfycbyzmZMNyYMo17YU-mf18_4SwoS7OlI3SjQddlSw4PycGGt_Ms8LHCYSI8AddZjTWEdFMA/exec"
 
 # Scaling params
 # ServiceScaleEvaluationPeriods:
@@ -256,6 +337,22 @@ Resources:
           Environment:
             - Name: AUTH0_BASE_URL
               Value: !GetAtt InternetALB.DNSName
+            - Name: AUTH0_ISSUER_BASE_URL
+              Value: !Ref AUTH0IssuerBaseUrl
+            - Name: AUTH0_SECRET
+              Value: !Ref AUTH0Secret
+            - Name: AUTH0_CLIENT_ID
+              Value: !Ref AUTH0ClientId
+            - Name: AUTH0_CLIENT_SECRET
+              Value: !Ref AUTH0ClientSecret
+            - Name: REDIRECT_URI
+              Value: !Ref RedirectUrl
+            - Name: POST_LOGOUT_REDIRECT_URI
+              Value: !Ref PostLogoutRedirectUri
+            - Name: NEXT_PUBLIC_AUDIENCE
+              Value: !ImportValue APIALBName.DNSName
+            - Name: NEXT_PUBLIC_TRANSLATION_API_URL
+              Value: !Ref NEXTPublicTranslationApiUrl
           LogConfiguration:
             LogDriver: awslogs
             Options:
