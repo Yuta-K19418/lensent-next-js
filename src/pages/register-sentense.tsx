@@ -22,7 +22,7 @@ const RegisterSentense: NextPage = () => {
     setIsOpen(false);
   };
 
-  const customStyles = {
+  const customStyles: any = {
     overlay: {
       position: "fixed",
       top: 0,
@@ -92,7 +92,7 @@ const RegisterSentense: NextPage = () => {
                 border rounded text-gray-700
                 w-full focus:outline-none align-text-top break-words"
               placeholder="This is an apple."
-              rows="10"
+              rows={10}
               onChange={(e) => /* eslint-disable-line */ {
                 setSentense(e.target.value);
               }}
