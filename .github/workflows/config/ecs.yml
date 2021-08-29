@@ -350,7 +350,7 @@ Resources:
             - Name: POST_LOGOUT_REDIRECT_URI
               Value: !Ref PostLogoutRedirectUri
             - Name: NEXT_PUBLIC_AUDIENCE
-              Value: !ImportValue APIALBName.DNSName
+              Value: !ImportValue APIALBEndpoint
             - Name: NEXT_PUBLIC_TRANSLATION_API_URL
               Value: !Ref NEXTPublicTranslationApiUrl
           LogConfiguration:
