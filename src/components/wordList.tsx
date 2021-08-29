@@ -110,18 +110,12 @@ export const WordList: VFC<SentenseData> = (props) => {
           </div>
         </div>
         <div className="overflow-x-scroll xl:overflow-x-hidden w-full">
-          <table className="min-w-full bg-white dark:bg-gray-800">
+          <table className="min-w-full bg-white dark:bg-gray-800 table-auto">
             <thead>
               <tr className="py-8 w-full h-16 border-b border-gray-300 dark:border-gray-200">
-                <th className="text-sm font-normal tracking-normal leading-4 text-left text-gray-600 dark:text-gray-400">
-                  語句
-                </th>
-                <th className="pr-6 text-sm font-normal tracking-normal leading-4 text-left text-gray-600 dark:text-gray-400">
-                  日本語訳
-                </th>
-                <th className="pr-6 text-sm font-normal tracking-normal leading-4 text-left text-gray-600 dark:text-gray-400">
-                  覚えた♪
-                </th>
+                <th className="text-sm text-gray-600 dark:text-gray-400">語句</th>
+                <th className="text-sm text-gray-600 dark:text-gray-400">日本語訳</th>
+                <th className="text-sm text-gray-600 dark:text-gray-400">覚えたらCHEKCK♪</th>
               </tr>
             </thead>
             <tbody>
@@ -129,15 +123,14 @@ export const WordList: VFC<SentenseData> = (props) => {
                 {data &&
                   data.map((word: WordData) => {
                     return (
-                      <tr className="w-full h-24 border-b border-gray-300 dark:border-gray-200" key={word.word_id}>
-                        <td className="pl-16 text-sm tracking-normal leading-4 text-gray-800 dark:text-gray-100">
-                          {word.en}
-                        </td>
+                      <tr
+                        className="h-24 align-middle border-b border-gray-300 dark:border-gray-200"
+                        key={word.word_id}
+                      >
+                        <td className="pl-16 text-sm text-gray-800 dark:text-gray-100">{word.en}</td>
                         <details>
-                          <summary>見る</summary>
-                          <td className="ml-16 text-sm tracking-normal leading-4 text-gray-800 dark:text-gray-100">
-                            {word.ja}
-                          </td>
+                          <summary>訳を確認する</summary>
+                          <td className="ml-16 text-sm text-gray-800 dark:text-gray-100 align-middle">{word.ja}</td>
                         </details>
                         <td>
                           <div className="flex">
