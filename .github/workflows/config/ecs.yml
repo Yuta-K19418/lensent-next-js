@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: Fargate and ALB Create For LenSentApp
+Description: Fargate and ALB Create For LenSentNextjsApp
 
 Metadata:
   "AWS::CloudFormation::Interface":
@@ -508,3 +508,13 @@ Resources:
 #   DependsOn:
 #     - ECSService
 #     - ServiceScaleInPolicy
+
+Outputs:
+  InternetALBHostedZoneID:
+    Value: !GetAtt InternetALB.CanonicalHostedZoneID
+    Export:
+      Name: InternetALBHostZoneId
+  InternetALBEndpoint:
+    Value: !GetAtt InternetALB.DNSName
+    Export:
+      Name: InternetALBEndpoint

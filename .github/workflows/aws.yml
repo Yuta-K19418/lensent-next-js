@@ -95,3 +95,14 @@ jobs:
              --stack-name ${STACK_NAME} \
              --capabilities CAPABILITY_NAMED_IAM \
              --parameter-overrides ECSImageName=${ECS_IMAGE_NAME} AUTH0Secret=${AUTH0_SECRET} AUTH0ClientId=${AUTH0_CLIENT_ID} AUTH0ClientSecret=${AUTH0_CLIENT_SECRET}
+
+      - name: Deploy Cloudformation NextjsRoute53
+        env:
+          STACK_NAME: NextjsRoute53
+          TEMPLATE_NAME: route.yml
+          HOSTZONE_NAME: lensent.tk
+        run: |
+          aws cloudformation deploy \
+            --template-file ./.github/workflows/config/${TEMPLATE_NAME} \
+            --stack-name ${STACK_NAME} \
+            --parameter-overrides HostedZoneName=${HOSTZONE_NAME}
