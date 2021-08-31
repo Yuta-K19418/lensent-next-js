@@ -99,7 +99,7 @@ jobs:
       - name: Deploy Cloudformation NextjsRoute53
         env:
           STACK_NAME: NextjsRoute53
-          TEMPLATE_NAME: route.yml
+          TEMPLATE_NAME: route53.yml
           HOSTZONE_NAME: lensent.tk
         run: |
           aws cloudformation deploy \
