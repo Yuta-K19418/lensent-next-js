@@ -20,4 +20,3 @@ Resources:
             HostedZoneId: !ImportValue InternetALBHostZoneId
             DNSName: !ImportValue InternetALBEndpoint
           Type: A
-          TTL: 300
