@@ -10,9 +10,9 @@ Resources:
       Certificates:
         - CertificateArn: !Ref ACM
       DefaultActions:
-        - TargetGroupArn: !Ref TargetGroupName
+        - TargetGroupArn: !ImportValue TargetGroupName
           Type: forward
-      LoadBalancerArn: !Ref InternetALBName
+      LoadBalancerArn: !ImportValue InternetALBName
   ACM:
     Type: AWS::CertificateManager::Certificate
     Properties:
