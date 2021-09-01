@@ -18,6 +18,6 @@ Resources:
     Properties:
       DomainName: !ImportValue DomainName
       DomainValidationOptions:
-        - DomainName:
+        - DomainName: !ImportValue DomainName
           HostedZoneId: !ImportValue HostedZoneId
       ValidationMethod: DNS
