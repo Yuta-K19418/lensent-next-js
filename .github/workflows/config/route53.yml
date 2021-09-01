@@ -21,6 +21,12 @@ Resources:
             HostedZoneId: !ImportValue InternetALBHostZoneId
             DNSName: !ImportValue InternetALBEndpoint
           Type: A
+        - Name: !Sub "www.${HostedZoneName}."
+          Type: CNAME
+          TTL: "900"
+          Weight: "4"
+          ResourceRecords:
+            - !Sub "www.${HostedZoneName}."
 
 Outputs:
   HostedZone:
