@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Adding Setting Of ACM For LenSentNextjsApp
+
+Resources:
+  ALBListenerHTTPS:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      Port: 443
+      Protocol: HTTPS
+      Certificates:
+        - CertificateArn: !Ref ACM
+      DefaultActions:
+        - TargetGroupArn: !Ref TargetGroupName
+          Type: forward
+      LoadBalancerArn: !Ref InternetALBName
+  ACM:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !ImportValue DomainName
+      DomainValidationOptions:
+        - DomainName:
+          HostedZoneId: !ImportValue HostedZoneId
+      ValidationMethod: DNS

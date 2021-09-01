@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: Fargate and ALB Create For LenSentNextjsApp
+Description: Create Fargate and ALB For LenSentNextjsApp
 
 Metadata:
   "AWS::CloudFormation::Interface":
@@ -510,6 +510,14 @@ Resources:
 #     - ServiceScaleInPolicy
 
 Outputs:
+  InternetALB:
+    Value: !Ref InternetALB
+    Export:
+      Name: InternetALBName
+  TargetGroup:
+    Value: !Ref TargetGroup
+    Export:
+      Name: TargetGroupName
   InternetALBHostedZoneID:
     Value: !GetAtt InternetALB.CanonicalHostedZoneID
     Export:

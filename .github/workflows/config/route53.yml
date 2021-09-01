@@ -1,4 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
+Description: Create Host Zone For LenSentNextjsApp
 
 Parameters:
   HostedZoneName:
@@ -20,3 +21,13 @@ Resources:
             HostedZoneId: !ImportValue InternetALBHostZoneId
             DNSName: !ImportValue InternetALBEndpoint
           Type: A
+
+Outputs:
+  HostedZone:
+    Value: !Ref Route53HostedZone
+    Export:
+      Name: HostedZoneId
+  Domain:
+    Value: !ImportValue InternetALBEndpoint
+    Export:
+      Name: DomainName

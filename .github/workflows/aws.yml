@@ -106,3 +106,12 @@ jobs:
             --template-file ./.github/workflows/config/${TEMPLATE_NAME} \
             --stack-name ${STACK_NAME} \
             --parameter-overrides HostedZoneName=${HOSTZONE_NAME}
+
+      - name: Deploy Cloudformation NextjsACM
+        env:
+          STACK_NAME: NextjsACM
+          TEMPLATE_NAME: acm.yml
+        run: |
+          aws cloudformation deploy \
+            --template-file ./.github/workflows/config/${TEMPLATE_NAME} \
+            --stack-name ${STACK_NAME}
