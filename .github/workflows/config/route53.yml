@@ -15,11 +15,9 @@ Resources:
     Properties:
       HostedZoneId: !Ref Route53HostedZone
       RecordSets:
-        - Name: !Sub "${HostedZoneName}."
-          Type: A
-          TTL: 300
         - Name: !Sub "www.${HostedZoneName}."
           AliasTarget:
             HostedZoneId: !ImportValue InternetALBHostZoneId
             DNSName: !ImportValue InternetALBEndpoint
           Type: A
+          TTL: 300
