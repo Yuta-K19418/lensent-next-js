@@ -1,7 +1,23 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Adding Setting Of ACM For LenSentNextjsApp
 
+Parameters:
+  record01:
+    Type: String
+    Default: "lensent.tk"
+    Description: domain name
+
 Resources:
+  ACM:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Sub "${record01}"
+      DomainValidationOptions:
+        - DomainName: !Sub "${record01}"
+          HostedZoneId: !ImportValue HostedZoneId
+      SubjectAlternativeNames:
+        - !Sub "*.${record01}"
+      ValidationMethod: DNS
   ALBListenerHTTPS:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties:
@@ -13,11 +29,3 @@ Resources:
         - TargetGroupArn: !ImportValue TargetGroupName
           Type: forward
       LoadBalancerArn: !ImportValue InternetALBName
-  ACM:
-    Type: AWS::CertificateManager::Certificate
-    Properties:
-      DomainName: !ImportValue DomainName
-      DomainValidationOptions:
-        - DomainName: !ImportValue DomainName
-          HostedZoneId: !ImportValue HostedZoneId
-      ValidationMethod: DNS
