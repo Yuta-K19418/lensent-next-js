@@ -171,16 +171,6 @@ Parameters:
     Type: String
     Default: "clientSecret"
 
-  #RedirectUrl
-  RedirectUrl:
-    Type: String
-    Default: "https://localhost/api/callback"
-
-  #PostLogoutRedirectUri
-  PostLogoutRedirectUri:
-    Type: String
-    Default: "https://localhost"
-
   #Audience
   Audience:
     Type: String
@@ -346,9 +336,11 @@ Resources:
             - Name: AUTH0_CLIENT_SECRET
               Value: !Ref AUTH0ClientSecret
             - Name: REDIRECT_URI
-              Value: !Ref RedirectUrl
+              Value: !Sub
+                - "${RedirectUrl}/api/callback"
+                - RedirectUrl: !GetAtt InternetALB.DNSName
             - Name: POST_LOGOUT_REDIRECT_URI
-              Value: !Ref PostLogoutRedirectUri
+              Value: !GetAtt InternetALB.DNSName
             - Name: AUDIENCE
               Value: !Sub
                 - "${APIALBEndpoint}/api"
