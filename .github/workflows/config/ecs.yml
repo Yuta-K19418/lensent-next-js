@@ -149,7 +149,7 @@ Parameters:
   #AUTH0BaseUrl
   AUTH0BaseUrl:
     Type: String
-    Default: "http://localhost:3000"
+    Default: "https://localhost"
 
   #AUTH0IssuerBaseUrl
   AUTH0IssuerBaseUrl:
@@ -174,12 +174,12 @@ Parameters:
   #RedirectUrl
   RedirectUrl:
     Type: String
-    Default: "http://localhost:3000/api/callback"
+    Default: "https://localhost/api/callback"
 
   #PostLogoutRedirectUri
   PostLogoutRedirectUri:
     Type: String
-    Default: "http://localhost:3000/"
+    Default: "https://localhost"
 
   #Audience
   Audience:
@@ -349,8 +349,10 @@ Resources:
               Value: !Ref RedirectUrl
             - Name: POST_LOGOUT_REDIRECT_URI
               Value: !Ref PostLogoutRedirectUri
+            - Name: AUDIENCE
+              Value: { "Fn::ImportValue": !Sub "${APIALBEndpoint}/api" }
             - Name: NEXT_PUBLIC_AUDIENCE
-              Value: !ImportValue APIALBEndpoint
+              Value: { "Fn::ImportValue": !Sub "${APIALBEndpoint}/api" }
             - Name: NEXT_PUBLIC_TRANSLATION_API_URL
               Value: !Ref NEXTPublicTranslationApiUrl
           LogConfiguration:
