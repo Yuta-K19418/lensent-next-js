@@ -350,11 +350,13 @@ Resources:
             - Name: POST_LOGOUT_REDIRECT_URI
               Value: !Ref PostLogoutRedirectUri
             - Name: AUDIENCE
-              Value:
-                - { "Fn::ImportValue": !Sub "${APIALBEndpoint}/api" }
+              Value: !Sub
+                - "${APIALBEndpoint}/api"
+                - APIALBEndpoint: !ImportValue APIALBEndpoint
             - Name: NEXT_PUBLIC_AUDIENCE
-              Value:
-                - { "Fn::ImportValue": !Sub "${APIALBEndpoint}/api" }
+              Value: !Sub
+                - "${APIALBEndpoint}/api"
+                - APIALBEndpoint: !ImportValue APIALBEndpoint
             - Name: NEXT_PUBLIC_TRANSLATION_API_URL
               Value: !Ref NEXTPublicTranslationApiUrl
           LogConfiguration:
