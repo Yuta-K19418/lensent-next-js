@@ -337,7 +337,7 @@ Resources:
               Value: !Ref AUTH0ClientSecret
             - Name: REDIRECT_URI
               Value: !Sub
-                - "${RedirectUrl}/api/callback"
+                - "${RedirectUrl}/api/auth/callback"
                 - RedirectUrl: !GetAtt InternetALB.DNSName
             - Name: POST_LOGOUT_REDIRECT_URI
               Value: !GetAtt InternetALB.DNSName
@@ -524,3 +524,7 @@ Outputs:
     Value: !GetAtt InternetALB.DNSName
     Export:
       Name: InternetALBEndpoint
+  RediectUri:
+    Value: !Ref REDIRECT_URI
+    Export:
+      Name: RediectUriName
