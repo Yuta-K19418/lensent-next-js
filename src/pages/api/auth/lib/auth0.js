@@ -9,8 +9,8 @@ export const OnInitializedAuth0 = () => {
     clientId: config.AUTH0_CLIENT_ID,
     clientSecret: config.AUTH0_CLIENT_SECRET,
     scope: config.AUTH0_SCOPE,
-    redirectUri: "http://localhost:3000/api/callback",
-    postLogoutRedirectUri: "http://localhost:3000/",
+    redirectUri: REDIRECT_URI,
+    postLogoutRedirectUri: POST_LOGOUT_REDIRECT_URI,
   };
 
   return initAuth0(params);
