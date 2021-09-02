@@ -5,5 +5,5 @@ module.exports = {
   AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET, //eslint-disable-line @typescript-eslint/naming-convention
   AUDIENCE: process.env.AUDIENCE, //eslint-disable-line @typescript-eslint/naming-convention
   REDIRECT_URI: process.env.REDIRECT_URI, //eslint-disable-line @typescript-eslint/naming-convention
-  AUDIENCE: process.env.AUDIENCE, //eslint-disable-line @typescript-eslint/naming-convention
+  POST_LOGOUT_REDIRECT_URI: process.env.POST_LOGOUT_REDIRECT_URI, //eslint-disable-line @typescript-eslint/naming-convention
 };
