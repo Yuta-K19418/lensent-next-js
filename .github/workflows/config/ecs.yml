@@ -525,6 +525,8 @@ Outputs:
     Export:
       Name: InternetALBEndpoint
   RediectUri:
-    Value: !Ref REDIRECT_URI
+    Value: !Sub
+      - "${RedirectUrl}/api/auth/callback"
+      - RedirectUrl: !GetAtt InternetALB.DNSNameI
     Export:
       Name: RediectUriName
