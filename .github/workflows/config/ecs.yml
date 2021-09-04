@@ -568,7 +568,7 @@ Resources:
       DomainName: !Sub "${Record01}"
       DomainValidationOptions:
         - DomainName: !Sub "${Record01}"
-          HostedZoneId: !Ref HostedZoneId
+          HostedZoneId: !Ref Route53HostedZone
       SubjectAlternativeNames:
         - !Sub "*.${Record01}"
       ValidationMethod: DNS
