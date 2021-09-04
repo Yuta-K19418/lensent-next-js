@@ -41,7 +41,7 @@ Metadata:
       - Label:
           default: "ACM Configuration"
         Parameters:
-          - HostedZoneName
+          - Record01
 
       # - Label:
       #     default: "Scaling Configuration"
