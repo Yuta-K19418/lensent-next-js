@@ -374,7 +374,7 @@ Resources:
                 - APIALBEndpoint: !ImportValue APIALBEndpoint
             - Name: NEXT_PUBLIC_AUDIENCE
               Value: !Sub
-                - "$http://{APIALBEndpoint}/api"
+                - "http://${APIALBEndpoint}/api"
                 - APIALBEndpoint: !ImportValue APIALBEndpoint
             - Name: NEXT_PUBLIC_TRANSLATION_API_URL
               Value: !Ref NEXTPublicTranslationApiUrl
