@@ -594,6 +594,6 @@ Outputs:
   APIALBEndpointName:
     Value: !Sub
       - "http://${APIALBEndpoint}/api"
-      - APIALBEndpoint: !ImportValue APIALBEndpointD
+      - APIALBEndpoint: !ImportValue APIALBEndpoint
     Export:
       Name: APIALBEndpointName
