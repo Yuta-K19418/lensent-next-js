@@ -351,9 +351,7 @@ Resources:
           Image: !Ref ECSImageName
           Environment:
             - Name: AUTH0_BASE_URL
-              Value: !Sub
-                - "https://${InternetALBEndpoint}"
-                - InternetALBEndpoint: !GetAtt InternetALB.DNSName
+              Value: !Ref AUTH0BaseUrl
             - Name: AUTH0_ISSUER_BASE_URL
               Value: !Ref AUTH0IssuerBaseUrl
             - Name: AUTH0_SECRET
@@ -364,10 +362,10 @@ Resources:
               Value: !Ref AUTH0ClientSecret
             - Name: REDIRECT_URI
               Value: !Sub
-                - "https://${InternetALBEndpoint}/api/auth/callback"
-                - InternetALBEndpoint: !GetAtt InternetALB.DNSName
+                - "${InternetALBEndpoint}/api/auth/callback"
+                - InternetALBEndpoint: !Ref AUTH0BaseUrl
             - Name: POST_LOGOUT_REDIRECT_URI
-              Value: !GetAtt InternetALB.DNSName
+              Value: !Ref AUTH0BaseUrl
             - Name: AUDIENCE
               Value: !Sub
                 - "http://${APIALBEndpoint}/api"
