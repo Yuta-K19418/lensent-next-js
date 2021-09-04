@@ -367,16 +367,14 @@ Resources:
                 - "https://${InternetALBEndpoint}/api/auth/callback"
                 - InternetALBEndpoint: !GetAtt InternetALB.DNSName
             - Name: POST_LOGOUT_REDIRECT_URI
-              Value: !Sub
-                - "https://${InternetALBEndpoint}"
-                - InternetALBEndpoint: !GetAtt InternetALB.DNSName
+              Value: !GetAtt InternetALB.DNSName
             - Name: AUDIENCE
               Value: !Sub
-                - "https://${APIALBEndpoint}/api"
+                - "http://${APIALBEndpoint}/api"
                 - APIALBEndpoint: !ImportValue APIALBEndpoint
             - Name: NEXT_PUBLIC_AUDIENCE
               Value: !Sub
-                - "$https://{APIALBEndpoint}/api"
+                - "$http://{APIALBEndpoint}/api"
                 - APIALBEndpoint: !ImportValue APIALBEndpoint
             - Name: NEXT_PUBLIC_TRANSLATION_API_URL
               Value: !Ref NEXTPublicTranslationApiUrl
@@ -584,7 +582,9 @@ Outputs:
     Export:
       Name: InternetALBHostZoneId
   InternetALBEndpoint:
-    Value: !GetAtt InternetALB.DNSName
+    Value: !Sub
+      - "https://${InternetALBEndpoint}"
+      - InternetALBEndpoint: !GetAtt InternetALB.DNSName
     Export:
       Name: InternetALBEndpoint
   HostedZone:
