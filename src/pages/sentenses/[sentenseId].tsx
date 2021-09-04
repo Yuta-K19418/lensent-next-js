@@ -53,7 +53,7 @@ const Sentense: NextPage = () => {
     <Layout>
       <div className="flex">
         <Sidebar />
-        <div className="xl:ml-32 xl:w-2/3 xl:h-1/3">
+        <div className="md:ml-16 xl:ml-32 md:w-2/3 xl:w-2/3 md:h-1/3 xl:h-1/3">
           <SentenseContent /*eslint-disable-line*/
             sentense_id={data.sentense_id}
             title={data.title}

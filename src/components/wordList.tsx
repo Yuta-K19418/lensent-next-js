@@ -112,32 +112,35 @@ export const WordList: VFC<SentenseData> = (props) => {
         <div className="overflow-x-scroll xl:overflow-x-hidden w-full">
           <table className="min-w-full bg-white dark:bg-gray-800 table-auto">
             <thead>
-              <tr className="py-8 w-full h-16 border-b border-gray-300 dark:border-gray-200">
-                <th className="text-sm text-gray-600 dark:text-gray-400">語句</th>
-                <th className="text-sm text-gray-600 dark:text-gray-400">日本語訳</th>
-                <th className="text-sm text-gray-600 dark:text-gray-400">覚えたらCHEKCK♪</th>
+              <tr className="flex py-8 w-full h-16 border-b border-gray-300 dark:border-gray-200">
+                <th className="flex justify-center w-1/3 text-sm text-gray-600 dark:text-gray-400">語句</th>
+                <th className="flex justify-center w-1/3 text-sm text-gray-600 dark:text-gray-400">日本語訳</th>
+                <th className="flex justify-center w-1/3 text-sm text-gray-600 dark:text-gray-400">覚えたらCHEKCK♪</th>
               </tr>
             </thead>
             <tbody>
-              <ul>
-                {data &&
-                  data.map((word: WordData) => {
-                    return (
-                      <tr
-                        className="h-24 align-middle border-b border-gray-300 dark:border-gray-200"
-                        key={word.word_id}
-                      >
-                        <td className="pl-16 text-sm text-gray-800 dark:text-gray-100">{word.en}</td>
-                        <details>
-                          <summary>訳を確認する</summary>
-                          <td className="ml-16 text-sm text-gray-800 dark:text-gray-100 align-middle">{word.ja}</td>
-                        </details>
-                        <td>
-                          <div className="flex">
-                            <a className="text-blue-500 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded border border-transparent focus:border-gray-800 cursor-pointer focus:outline-none">
+              {data &&
+                data.map((word: WordData) => {
+                  return (
+                    <tr className="py-8 w-full h-16 border-b border-gray-300 dark:border-gray-200" key={word.word_id}>
+                      <div className="flex w-full">
+                        <td className="flex justify-center items-center w-1/3 text-sm text-center text-gray-800 dark:text-gray-100 align-middle">
+                          {word.en}
+                        </td>
+                        <div className="justify-center mt-5 w-1/3 text-center ">
+                          <details>
+                            <summary>訳を確認する</summary>
+                            <td className="justify-center pl-32 text-sm text-center text-gray-800 dark:text-gray-100">
+                              {word.ja}
+                            </td>
+                          </details>
+                        </div>
+                        <td className="w-1/3">
+                          <a className="text-blue-500 rounded border border-transparent focus:border-gray-800 cursor-pointer focus:outline-none">
+                            <div className="pl-16">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                className="w-6 h-6"
+                                className="w-6 h-6 hover:bg-gray-200 rounded focus:border-gray-800 cursor-pointer"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
@@ -150,13 +153,13 @@ export const WordList: VFC<SentenseData> = (props) => {
                                   d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                                 />
                               </svg>
-                            </a>
-                          </div>
+                            </div>
+                          </a>
                         </td>
-                      </tr>
-                    );
-                  })}
-              </ul>
+                      </div>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>
