@@ -594,7 +594,3 @@ Outputs:
     Value: !Ref Route53HostedZone
     Export:
       Name: HostedZoneId
-  Domain:
-    Value: !ImportValue InternetALBEndpoint
-    Export:
-      Name: DomainName
