@@ -368,11 +368,11 @@ Resources:
               Value: !Ref AUTH0BaseUrl
             - Name: AUDIENCE
               Value: !Sub
-                - "http://${APIALBEndpoint}/api"
+                - "${APIALBEndpoint}/api"
                 - APIALBEndpoint: !ImportValue APIALBEndpoint
             - Name: NEXT_PUBLIC_AUDIENCE
               Value: !Sub
-                - "http://${APIALBEndpoint}/api"
+                - "${APIALBEndpoint}/api"
                 - APIALBEndpoint: !ImportValue APIALBEndpoint
             - Name: NEXT_PUBLIC_TRANSLATION_API_URL
               Value: !Ref NEXTPublicTranslationApiUrl
@@ -591,7 +591,7 @@ Outputs:
       Name: HostedZoneId
   APIALBEndpointName:
     Value: !Sub
-      - "http://${APIALBEndpoint}/api"
+      - "${APIALBEndpoint}/api"
       - APIALBEndpoint: !ImportValue APIALBEndpoint
     Export:
       Name: APIALBEndpointName
