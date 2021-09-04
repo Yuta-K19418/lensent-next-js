@@ -157,7 +157,7 @@ Parameters:
   #AUTH0BaseUrl
   AUTH0BaseUrl:
     Type: String
-    Default: "https://www.lensent.tk/"
+    Default: "https://www.lensent.tk"
 
   #AUTH0IssuerBaseUrl
   AUTH0IssuerBaseUrl:
