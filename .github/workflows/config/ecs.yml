@@ -595,3 +595,7 @@ Outputs:
       - APIALBEndpoint: !ImportValue APIALBEndpoint
     Export:
       Name: APIALBEndpointName
+  AUTH0BaseUrlName:
+    Value: !Ref AUTH0BaseUrl
+    Export:
+      Name: AUTH0BaseUrlName
