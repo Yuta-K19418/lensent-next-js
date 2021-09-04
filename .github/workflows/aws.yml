@@ -89,29 +89,10 @@ jobs:
           AUTH0_SECRET: ${{ secrets.AUTH0_SECRET }}
           AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
           AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
+          HOSTZONE_NAME: lensent.tk
         run: |
           aws cloudformation deploy \
              --template-file ./.github/workflows/config/${TEMPLATE_NAME} \
              --stack-name ${STACK_NAME} \
              --capabilities CAPABILITY_NAMED_IAM \
-             --parameter-overrides ECSImageName=${ECS_IMAGE_NAME} AUTH0Secret=${AUTH0_SECRET} AUTH0ClientId=${AUTH0_CLIENT_ID} AUTH0ClientSecret=${AUTH0_CLIENT_SECRET}
-
-      - name: Deploy Cloudformation NextjsRoute53
-        env:
-          STACK_NAME: NextjsRoute53
-          TEMPLATE_NAME: route53.yml
-          HOSTZONE_NAME: lensent.tk
-        run: |
-          aws cloudformation deploy \
-            --template-file ./.github/workflows/config/${TEMPLATE_NAME} \
-            --stack-name ${STACK_NAME} \
-            --parameter-overrides HostedZoneName=${HOSTZONE_NAME}
-
-      - name: Deploy Cloudformation NextjsACM
-        env:
-          STACK_NAME: NextjsACM
-          TEMPLATE_NAME: acm.yml
-        run: |
-          aws cloudformation deploy \
-            --template-file ./.github/workflows/config/${TEMPLATE_NAME} \
-            --stack-name ${STACK_NAME}
+             --parameter-overrides ECSImageName=${ECS_IMAGE_NAME} AUTH0Secret=${AUTH0_SECRET} AUTH0ClientId=${AUTH0_CLIENT_ID} AUTH0ClientSecret=${AUTH0_CLIENT_SECRET} HostedZoneName=${HOSTZONE_NAME}
