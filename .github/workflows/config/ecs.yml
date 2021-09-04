@@ -370,9 +370,11 @@ Resources:
             - Name: AUTH0_CLIENT_SECRET
               Value: !Ref AUTH0ClientSecret
             - Name: REDIRECT_URI
-              Value: "https://lensent.tk/api/auth/callback"
+              Value: !Sub
+                - "${InternetALBEndpoint}/api/auth/callback"
+                - InternetALBEndpoint: !GetAtt InternetALB.DNSName
             - Name: POST_LOGOUT_REDIRECT_URI
-              Value: !Sub "https://lensent.tk"
+              Value: !GetAtt InternetALB.DNSName
             - Name: AUDIENCE
               Value: !Sub
                 - "${APIALBEndpoint}/api"
