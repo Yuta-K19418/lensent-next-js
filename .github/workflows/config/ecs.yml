@@ -591,3 +591,9 @@ Outputs:
     Value: !Ref Route53HostedZone
     Export:
       Name: HostedZoneId
+  APIALBEndpointName:
+    Value: !Sub
+      - "http://${APIALBEndpoint}/api"
+      - APIALBEndpoint: !ImportValue APIALBEndpointD
+    Export:
+      Name: APIALBEndpointName
