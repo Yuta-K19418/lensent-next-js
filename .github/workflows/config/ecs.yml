@@ -301,7 +301,7 @@ Resources:
   # ------------------------------------------------------------#
   ECSService:
     Type: AWS::ECS::Service
-    DependsOn: !ImportValue InternetALBListenerHTTPS
+    DependsOn: InternetALBListenerHTTPS
     Properties:
       Cluster: !Ref ECSCluster
       DesiredCount: !Ref ECSTaskDesiredCount
