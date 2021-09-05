@@ -99,7 +99,7 @@ Metadata:
 # ------------------------------------------------------------#
 Parameters:
   ProjectName:
-    Default: lensent-nextjs
+    Default: lensent
     Type: String
 
   #InternetALB
@@ -120,7 +120,7 @@ Parameters:
   #ECSTaskName
   ECSTaskName:
     Type: String
-    Default: "task"
+    Default: "next-js-task"
 
   #ECSTaskCPUUnit
   ECSTaskCPUUnit:
@@ -137,7 +137,7 @@ Parameters:
   #ECSContainerName
   ECSContainerName:
     Type: String
-    Default: "container"
+    Default: "next-js-container"
 
   #ECSImageName
   ECSImageName:
@@ -147,7 +147,7 @@ Parameters:
   #ECSServiceName
   ECSServiceName:
     Type: String
-    Default: "service"
+    Default: "next-js-service"
 
   #ECSTaskDesiredCount
   ECSTaskDesiredCount:
