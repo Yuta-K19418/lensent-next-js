@@ -62,18 +62,3 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-
-      - name: Deploy Cloudformation Nextjs
-        env:
-          STACK_NAME: Nextjs
-          TEMPLATE_NAME: ecs.yml
-          ECS_IMAGE_NAME: ${{ steps.login-ecr.outputs.registry }}/lensent-next-js-ecr:${{ github.sha }}
-          AUTH0_SECRET: ${{ secrets.AUTH0_SECRET }}
-          AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
-          AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
-        run: |
-          aws cloudformation deploy \
-             --template-file ./.github/workflows/config/${TEMPLATE_NAME} \
-             --stack-name ${STACK_NAME} \
-             --capabilities CAPABILITY_NAMED_IAM \
-             --parameter-overrides ECSImageName=${ECS_IMAGE_NAME} AUTH0Secret=${AUTH0_SECRET} AUTH0ClientId=${AUTH0_CLIENT_ID} AUTH0ClientSecret=${AUTH0_CLIENT_SECRET}
