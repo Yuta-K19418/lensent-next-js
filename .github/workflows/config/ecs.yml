@@ -99,7 +99,7 @@ Metadata:
 # ------------------------------------------------------------#
 Parameters:
   ProjectName:
-    Default: lensent
+    Default: lensent-next-js
     Type: String
 
   #InternetALB
