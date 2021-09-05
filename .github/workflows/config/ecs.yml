@@ -167,10 +167,6 @@ Parameters:
     Type: String
     Default: "https://script.google.com/macros/s/AKfycbyzmZMNyYMo17YU-mf18_4SwoS7OlI3SjQddlSw4PycGGt_Ms8LHCYSI8AddZjTWEdFMA/exec"
 
-  InternetALBListenerHTTPS:
-    Type: String
-    Default: "InternetALBListenerHTTPS"
-
 # Scaling params
 # ServiceScaleEvaluationPeriods:
 #   Description: The number of periods over which data is compared to the specified threshold
@@ -305,7 +301,7 @@ Resources:
   # ------------------------------------------------------------#
   ECSService:
     Type: AWS::ECS::Service
-    DependsOn:
+    DependsOn: "InternetALBListenerHTTPS"
     Properties:
       Cluster: !Ref ECSCluster
       DesiredCount: !Ref ECSTaskDesiredCount
