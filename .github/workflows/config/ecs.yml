@@ -9,11 +9,6 @@ Metadata:
         Parameters:
           - ProjectName
       - Label:
-          default: "InternetALB Configuration"
-        Parameters:
-          - InternetALBName
-          - TargetGroupName
-      - Label:
           default: "Fargate for ECS Configuration"
         Parameters:
           - ECSClusterName
@@ -34,14 +29,6 @@ Metadata:
           - Audience
           - NEXTPulicAudience
           - NEXTPublicTranslationApiUrl
-      - Label:
-          default: "Route53 Configuration"
-        Parameters:
-          - HostedZoneName
-      - Label:
-          default: "ACM Configuration"
-        Parameters:
-          - Record01
 
       # - Label:
       #     default: "Scaling Configuration"
@@ -53,10 +40,6 @@ Metadata:
       #     - TaskMaxContainerCount
 
     ParameterLabels:
-      InternetALBName:
-        default: "InternetALBName"
-      TargetGroupName:
-        default: "TargetGroupName"
       ECSClusterName:
         default: "ECSClusterName"
       ECSTaskName:
@@ -101,16 +84,6 @@ Parameters:
   ProjectName:
     Default: lensent-next-js
     Type: String
-
-  #InternetALB
-  InternetALBName:
-    Type: String
-    Default: "alb"
-
-  #TargetGroupName
-  TargetGroupName:
-    Type: String
-    Default: "tg"
 
   #ECSClusterName
   ECSClusterName:
@@ -194,15 +167,6 @@ Parameters:
     Type: String
     Default: "https://script.google.com/macros/s/AKfycbyzmZMNyYMo17YU-mf18_4SwoS7OlI3SjQddlSw4PycGGt_Ms8LHCYSI8AddZjTWEdFMA/exec"
 
-  HostedZoneName:
-    Description: domain name.
-    Type: String
-
-  Record01:
-    Type: String
-    Default: "lensent.tk"
-    Description: domain name
-
 # Scaling params
 # ServiceScaleEvaluationPeriods:
 #   Description: The number of periods over which data is compared to the specified threshold
@@ -241,62 +205,6 @@ Parameters:
 #   ConstraintDescription: Value must be at least one
 
 Resources:
-  # ------------------------------------------------------------#
-  #  Target Group
-  # ------------------------------------------------------------#
-  TargetGroup:
-    Type: "AWS::ElasticLoadBalancingV2::TargetGroup"
-    Properties:
-      VpcId: !ImportValue LenSentVPCName
-      Name: !Sub "${ProjectName}-${TargetGroupName}"
-      Protocol: HTTP
-      Port: 3000
-      TargetType: ip
-
-  # ------------------------------------------------------------#
-  #  Internet ALB
-  # ------------------------------------------------------------#
-  InternetALB:
-    Type: "AWS::ElasticLoadBalancingV2::LoadBalancer"
-    Properties:
-      Name: !Sub "${ProjectName}-${InternetALBName}"
-      Tags:
-        - Key: Name
-          Value: !Sub "${ProjectName}-${InternetALBName}"
-      Scheme: "internet-facing"
-      SecurityGroups:
-        - !ImportValue ALBForNextjsSecurityGroupName
-      Subnets:
-        - !ImportValue ECSSubnet3Name
-        - !ImportValue ECSSubnet4Name
-
-  ALBListenerHTTP:
-    Type: "AWS::ElasticLoadBalancingV2::Listener"
-    Properties:
-      DefaultActions:
-        - Type: redirect
-          RedirectConfig:
-            Host: "#{host}"
-            Path: "/#{path}"
-            Port: 443
-            Protocol: HTTPS
-            Query: "#{query}"
-            StatusCode: HTTP_301
-      LoadBalancerArn: !Ref InternetALB
-      Port: 80
-      Protocol: HTTP
-  ALBListenerHTTPS:
-    Type: AWS::ElasticLoadBalancingV2::Listener
-    Properties:
-      Port: 443
-      Protocol: HTTPS
-      Certificates:
-        - CertificateArn: !Ref ACM
-      DefaultActions:
-        - TargetGroupArn: !Ref TargetGroup
-          Type: forward
-      LoadBalancerArn: !Ref InternetALB
-
   # ------------------------------------------------------------#
   # ECS Cluster
   # ------------------------------------------------------------#
@@ -393,7 +301,7 @@ Resources:
   # ------------------------------------------------------------#
   ECSService:
     Type: AWS::ECS::Service
-    DependsOn: ALBListenerHTTPS
+    DependsOn: !ImportValue InternetALBListenerHTTPS
     Properties:
       Cluster: !Ref ECSCluster
       DesiredCount: !Ref ECSTaskDesiredCount
@@ -532,69 +440,7 @@ Resources:
   #     - ECSService
   #     - ServiceScaleInPolicy
 
-  # ------------------------------------------------------------#
-  #  Route53
-  # ------------------------------------------------------------#
-
-  Route53HostedZone:
-    Type: AWS::Route53::HostedZone
-    Properties:
-      Name: !Sub "${HostedZoneName}"
-  route53RSGroup:
-    Type: AWS::Route53::RecordSetGroup
-    Properties:
-      HostedZoneId: !Ref Route53HostedZone
-      RecordSets:
-        - Name: !Sub "www.${HostedZoneName}."
-          AliasTarget:
-            HostedZoneId: !GetAtt InternetALB.CanonicalHostedZoneID
-            DNSName: !GetAtt InternetALB.DNSName
-          Type: A
-
-  # ------------------------------------------------------------#
-  #  ACM
-  # ------------------------------------------------------------#
-
-  ACM:
-    Type: AWS::CertificateManager::Certificate
-    Properties:
-      DomainName: !Sub "${Record01}"
-      DomainValidationOptions:
-        - DomainName: !Sub "${Record01}"
-          HostedZoneId: !Ref Route53HostedZone
-      SubjectAlternativeNames:
-        - !Sub "*.${Record01}"
-      ValidationMethod: DNS
-
 Outputs:
-  InternetALB:
-    Value: !Ref InternetALB
-    Export:
-      Name: InternetALBName
-  TargetGroup:
-    Value: !Ref TargetGroup
-    Export:
-      Name: TargetGroupName
-  InternetALBHostedZoneID:
-    Value: !GetAtt InternetALB.CanonicalHostedZoneID
-    Export:
-      Name: InternetALBHostZoneId
-  InternetALBEndpoint:
-    Value: !Sub
-      - "https://${InternetALBEndpoint}"
-      - InternetALBEndpoint: !GetAtt InternetALB.DNSName
-    Export:
-      Name: InternetALBEndpoint
-  HostedZone:
-    Value: !Ref Route53HostedZone
-    Export:
-      Name: HostedZoneId
-  APIALBEndpointName:
-    Value: !Sub
-      - "${APIALBEndpoint}/api"
-      - APIALBEndpoint: !ImportValue APIALBEndpoint
-    Export:
-      Name: APIALBEndpointName
   AUTH0BaseUrlName:
     Value: !Ref AUTH0BaseUrl
     Export:
