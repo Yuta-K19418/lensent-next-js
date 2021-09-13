@@ -13,32 +13,28 @@ const Home: NextPage = () => {
   const postUserId = async () => {
     let shouldPostFlg = false;
 
-    try {
-      await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/users/${user?.sub}`, {
-        method: "GET",
+    await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/users/${user?.sub}`, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json", //eslint-disable-line @typescript-eslint/naming-convention
+      },
+    }).then((response) => {
+      if (!response.ok) shouldPostFlg = true;
+      return response.json();
+    });
+
+    if (shouldPostFlg) {
+      await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/users`, {
+        method: "POST",
         mode: "cors",
         headers: {
           "Content-Type": "application/json", //eslint-disable-line @typescript-eslint/naming-convention
         },
+        body: JSON.stringify({ sub: user?.sub, name: user?.name }),
       }).then((response) => {
-        if (!response.ok) shouldPostFlg = true;
         return response.json();
       });
-
-      if (shouldPostFlg) {
-        await fetch(`${process.env.NEXT_PUBLIC_AUDIENCE}/users`, {
-          method: "POST",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json", //eslint-disable-line @typescript-eslint/naming-convention
-          },
-          body: JSON.stringify({ sub: user?.sub, name: user?.name }),
-        }).then((response) => {
-          return response.json();
-        });
-      }
-    } catch (err) {
-      alert(err);
     }
   };
 
